@@ -1,0 +1,89 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+class point                
+{
+public:
+	void setX(int X)
+	{
+		p_X = X;
+	}
+	int getX()
+	{
+		return p_X;
+	}
+	void setY(int Y)
+	{
+		p_Y = Y;
+	}
+	int getY()
+	{
+		return p_Y;
+	}
+private:                           //一个点，只有X和Y坐标  
+	int p_X;
+	int p_Y;
+};
+
+class circle           //圆，有半径，有圆心，圆心有X和Y坐标，圆心数据可以在点类中创建一个点供圆心使用
+{
+public:
+	void setcR(int X)
+	{
+		c_R = X;
+	}
+	int getcR()
+	{
+		return c_R;
+	}
+	//设置圆心
+	void setcenter(point 圆心坐标) //！有的时候不能理解是怎么一个参数能传出两个坐标，但是其实是到时候访问这个参数的时候可以进一步访问里面打包发出的具体属性
+	{
+		c_center = 圆心坐标;
+	}
+	//获取圆心
+	point getcenter()
+	{
+		return c_center;
+	}
+private:
+	int c_R;
+	point c_center;                    //这个圆类的圆心是从点类里面提供,所以要先出现点类，才出现圆类，不然要声明类
+};
+void itsrelate(circle &c,point &p)     //这是引用，c是圆的别名，可以在下面通过c访问圆的属性
+{
+	int length = (c.getcenter().getX() - p.getX()) * (c.getcenter().getX() - p.getX()) +
+				 (c.getcenter().getY() - p.getY()) * (c.getcenter().getY() - p.getY());
+	int range = c.getcR() * c.getcR();
+
+	if (length = range)
+	{
+		cout << "该圆与点的关系是：重合" << endl;
+	}
+	else if(length<range)
+	{
+		cout << "该圆与点的关系是：点在圆内" << endl;
+	}
+	else if(length > range)
+	{
+		cout << "该圆与点的关系是：点在圆外" << endl;
+	}
+}
+int main()
+{
+	//创建一个圆
+	circle c1;                        //给圆起名字
+	c1.setcR(10);                     //圆的半径为10
+	point 圆的坐标;                     //圆的圆心是点类提供
+	圆的坐标.setX(10);                  //圆的X坐标要引用到点类里面的设置X坐标函数
+	圆的坐标.setY(0);                   //圆的Y坐标要引用到点类里面的设置Y坐标函数
+	c1.setcenter(圆的坐标); //！有的时候不能理解是怎么一个参数能传出两个坐标，但是其实是到时候访问这个参数的时候可以进一步访问里面打包发出的具体属性
+
+	point p1;
+	p1.setX(10);
+	p1.setY(20);
+	itsrelate(c1,p1);
+	return 0;
+}
